@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ab36245/go-cli/bindings"
+	"github.com/ab36245/go-bindings"
 )
 
 var date1 = "1997-08-28"

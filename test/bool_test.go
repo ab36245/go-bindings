@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/ab36245/go-cli/bindings"
+	"github.com/ab36245/go-bindings"
 )
 
 func TestBool(t *testing.T) {
