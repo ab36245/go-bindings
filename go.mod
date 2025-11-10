@@ -1,3 +1,3 @@
 module github.com/ab36245/go-bindings
 
-go 1.25.4
+go 1.24.2
