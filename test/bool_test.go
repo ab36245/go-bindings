@@ -8,11 +8,11 @@ import (
 
 func TestBool(t *testing.T) {
 	t.Run("Assign", func(t *testing.T) {
-		run := func(t *testing.T, s string, ev bool, ee error) {
+		run := func(t *testing.T, s string, ev bool, ee string) {
 			var av bool
 			b := bindings.Bool(&av)
 			if ae := b.Assign(s); ae != nil {
-				if ae != ee {
+				if ae.Error() != ee {
 					report(t, ae, ee)
 				}
 				return
@@ -23,17 +23,20 @@ func TestBool(t *testing.T) {
 		}
 
 		t.Run("f", func(t *testing.T) {
-			run(t, "f", false, nil)
+			run(t, "f", false, "")
 		})
 		t.Run("false", func(t *testing.T) {
-			run(t, "false", false, nil)
+			run(t, "false", false, "")
 		})
 
 		t.Run("t", func(t *testing.T) {
-			run(t, "t", true, nil)
+			run(t, "t", true, "")
 		})
 		t.Run("true", func(t *testing.T) {
-			run(t, "true", true, nil)
+			run(t, "true", true, "")
+		})
+		t.Run("bad", func(t *testing.T) {
+			run(t, "bad", false, "")
 		})
 	})
 

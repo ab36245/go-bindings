@@ -16,11 +16,11 @@ func dateFromString(str string) time.Time {
 
 func TestDate(t *testing.T) {
 	t.Run("Assign", func(t *testing.T) {
-		run := func(t *testing.T, s string, ev time.Time, ee error) {
+		run := func(t *testing.T, s string, ev time.Time, ee string) {
 			var av time.Time
 			b := bindings.Date(&av)
 			if ae := b.Assign(s); ae != nil {
-				if ae != ee {
+				if ae.Error() != ee {
 					report(t, ae, ee)
 				}
 				return
@@ -30,8 +30,14 @@ func TestDate(t *testing.T) {
 			}
 		}
 
+		try := date1
 		t.Run(date1, func(t *testing.T) {
-			run(t, date1, dateFromString(date1), nil)
+			run(t, try, dateFromString(try), "")
+		})
+
+		try = "dodgy date"
+		t.Run(date1, func(t *testing.T) {
+			run(t, try, time.Time{}, "bad date value \"dodgy date\"")
 		})
 	})
 
