@@ -6,17 +6,18 @@ import (
 	"github.com/ab36245/go-bindings"
 )
 
-var enum1 = map[string]int{
-	"one":   1,
-	"two":   2,
-	"three": 3,
+func englishToInt(binding *int) bindings.Binding {
+	return bindings.Enum(binding).
+		Map("one", 1).
+		Map("two", 2).
+		Map("three", 3)
 }
 
 func TestEnum(t *testing.T) {
 	t.Run("Assign", func(t *testing.T) {
 		run := func(t *testing.T, s string, ev int, ee string) {
 			var av int
-			b := bindings.Enum(enum1, &av)
+			b := englishToInt(&av)
 			if ae := b.Assign(s); ae != nil {
 				if ae.Error() != ee {
 					report(t, ae, ee)
@@ -46,7 +47,7 @@ func TestEnum(t *testing.T) {
 
 	t.Run("IsZero", func(t *testing.T) {
 		run := func(t *testing.T, v int, e bool) {
-			b := bindings.Enum(enum1, &v)
+			b := englishToInt(&v)
 			a := b.IsZero()
 			if a != e {
 				report(t, a, e)
@@ -70,7 +71,7 @@ func TestEnum(t *testing.T) {
 
 	t.Run("Type", func(t *testing.T) {
 		v := 42
-		a := bindings.Enum(enum1, &v).Type()
+		a := englishToInt(&v).Type()
 		e := "enum[int]"
 		if a != e {
 			report(t, a, e)
