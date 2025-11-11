@@ -5,7 +5,12 @@ import (
 	"strings"
 )
 
-func Enum[T comparable](binding *T) *_enum[T] {
+type EnumBinding[T comparable] interface {
+	Binding
+	Map(string, T) EnumBinding[T]
+}
+
+func Enum[T comparable](binding *T) EnumBinding[T] {
 	return &_enum[T]{
 		binding: CheckNotNil(binding),
 	}
@@ -45,12 +50,12 @@ func (b _enum[T]) Type() string {
 	return fmt.Sprintf("enum[%T]", *b.binding)
 }
 
-func (b *_enum[T]) Map(name string, value T) *_enum[T] {
+func (b *_enum[T]) Map(name string, value T) EnumBinding[T] {
 	b.mappings = append(b.mappings, _enumMapping[T]{name, value})
 	return b
 }
 
-func EnumSlice[T comparable](binding *[]T) Binding {
+func EnumSlice[T comparable](binding *[]T) EnumBinding[T] {
 	return &_enumSlice[T]{
 		binding: CheckNotNil(binding),
 	}
@@ -95,7 +100,7 @@ func (b _enumSlice[T]) Type() string {
 	return _enumType[T]() + "..."
 }
 
-func (b *_enumSlice[T]) Map(name string, value T) *_enumSlice[T] {
+func (b *_enumSlice[T]) Map(name string, value T) EnumBinding[T] {
 	b.mappings = append(b.mappings, _enumMapping[T]{name, value})
 	return b
 }
