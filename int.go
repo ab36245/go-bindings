@@ -52,6 +52,10 @@ type _intFlag struct {
 	_int
 }
 
+func (b *_intFlag) Update() {
+	*b.binding++
+}
+
 func IntSlice(binding *[]int) Binding {
 	return &_intSlice{
 		binding: CheckNotNil(binding),

@@ -52,6 +52,10 @@ type _boolFlag struct {
 	_bool
 }
 
+func (b *_boolFlag) Update() {
+	*b.binding = true
+}
+
 func BoolSlice(binding *[]bool) Binding {
 	return &_boolSlice{
 		binding: CheckNotNil(binding),
