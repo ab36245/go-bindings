@@ -47,7 +47,7 @@ func (b _enum[T]) String() string {
 }
 
 func (b _enum[T]) Type() string {
-	return fmt.Sprintf("enum[%T]", *b.binding)
+	return _enumType(b.mappings)
 }
 
 func (b *_enum[T]) Map(name string, value T) EnumBinding[T] {
@@ -97,7 +97,7 @@ func (b _enumSlice[T]) String() string {
 }
 
 func (b _enumSlice[T]) Type() string {
-	return _enumType[T]() + "..."
+	return _enumType(b.mappings) + "..."
 }
 
 func (b *_enumSlice[T]) Map(name string, value T) EnumBinding[T] {
@@ -124,6 +124,14 @@ func _enumString[T comparable](mappings []_enumMapping[T], value T) string {
 	return "(none)"
 }
 
-func _enumType[T comparable]() string {
-	return fmt.Sprintf("enum[%T]", *new(T))
+func _enumType[T comparable](mappings []_enumMapping[T]) string {
+	// return fmt.Sprintf("enum[%T]", *new(T))
+	s := ""
+	for i, m := range mappings {
+		if i > 0 {
+			s += "|"
+		}
+		s += m.name
+	}
+	return s
 }
