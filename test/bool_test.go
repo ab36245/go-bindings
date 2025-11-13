@@ -36,7 +36,7 @@ func TestBool(t *testing.T) {
 			run(t, "true", true, "")
 		})
 		t.Run("bad", func(t *testing.T) {
-			run(t, "bad", false, "")
+			run(t, "bad", false, "bad bool value \"bad\"")
 		})
 	})
 
