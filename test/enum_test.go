@@ -67,6 +67,25 @@ func TestEnum(t *testing.T) {
 	})
 
 	t.Run("String", func(t *testing.T) {
+		run := func(t *testing.T, v int, e string) {
+			b := englishToInt(&v)
+			a := b.String()
+			if a != e {
+				report(t, a, e)
+			}
+		}
+
+		t.Run("zero", func(t *testing.T) {
+			run(t, 0, "(none)")
+		})
+
+		t.Run("one", func(t *testing.T) {
+			run(t, 1, "one")
+		})
+
+		t.Run("three", func(t *testing.T) {
+			run(t, 3, "three")
+		})
 	})
 
 	t.Run("Type", func(t *testing.T) {
